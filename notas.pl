@@ -32,6 +32,8 @@ for my $f (@notas ) {
   for my $n ( @estas_notas ) {
     if ( $n =~ /\d/ ) {
       $n =~ s/,/./;
+    } else {
+      $n =~ s/,/ - /;
     }
   }
   

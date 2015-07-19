@@ -49,6 +49,11 @@ Ahora podemos trazar, por separado, cada una de las universidades, lo que nos mu
 ```{r univ, echo=FALSE}
 ggplot()  +geom_point(data=notas.sev,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.gr,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ma,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.co,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ca,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.hu,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ja,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.upo,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))
 ```
+Este gráfico se puede normalizar dividiendo el puesto por el número de carreras, dando una idea también de qué porcentaje de grados en cada universidad no han cubierto el cupo de alumnos (aquellos con nota de corte igual a 5)
+```{r univnorm, echo=FALSE}
+ggplot()+geom_point(data=notas.sev,aes(x=idu/length(notas.sev$idu),y=Nota.general,color=Universidad,shape=Rama)) +geom_point(data=notas.gr,aes(x=idu/length(notas.gr$idu),y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ma,aes(x=idu/length(notas.ma$idu),y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.co,aes(x=idu/length(notas.co$idu),y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ca,aes(x=idu/length(notas.ca$idu),y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.hu,aes(x=idu/length(notas.hu$idu),y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ja,aes(x=idu/length(notas.ja$idu),y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.upo,aes(x=idu/length(notas.upo$idu),y=Nota.general,color=Universidad,shape=Rama))
+```
+
 La media de nota de corte por universidad se presenta a continuación, en general revelando la demanda de las titulaciones y relacionada sobre todo con la población de la provincia, con la excepción de Cádiz
 
 ```{r media1, echo=FALSE}
@@ -65,3 +70,12 @@ Finalmente, la media y mediana de notas para ingeniería y arquitectura, organiz
 ggplot(notas.and[notas.and$Rama=='IYA',], aes(x=factor(Universidad), y=Nota.general,fill=Universidad)) + stat_summary(fun.y="mean", geom="bar")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ggplot(notas.and[notas.and$Rama=='IYA',], aes(x=factor(Universidad), y=Nota.general,fill=Universidad)) + stat_summary(fun.y="median", geom="bar")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+
+Y ahora comparando a igualdad de grados en las dos mayores universidades, Sevilla y Granada. Esta es una comparación de notas a igualdad de grados
+```{r svqgrx1,echo=FALSE}
+notas.sev.gr <- merge(notas.sev,notas.gr,by='Grado.en')
+ggplot(notas.sev.gr,aes(x=Nota.general.x, y=Nota.general.y,shape=Rama.x))+geom_point(stat='Identity')
+```
+
+
+

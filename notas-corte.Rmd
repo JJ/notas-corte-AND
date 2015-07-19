@@ -60,3 +60,8 @@ De la misma forma, la media por rama plasma la popularidad de las mismas, con la
 ggplot(notas.and, aes(x=factor(Rama), y=Nota.general)) + stat_summary(fun.y="mean", geom="bar")
 ```
 
+Finalmente, la media y mediana de notas para ingeniería y arquitectura, organizado por universidad
+```{r mediaiyr,echo=FALSE}
+ggplot(notas.and[notas.and$Rama=='IYA',], aes(x=factor(Universidad), y=Nota.general,fill=Universidad)) + stat_summary(fun.y="mean", geom="bar")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplot(notas.and[notas.and$Rama=='IYA',], aes(x=factor(Universidad), y=Nota.general,fill=Universidad)) + stat_summary(fun.y="median", geom="bar")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```

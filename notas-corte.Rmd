@@ -10,6 +10,31 @@ output: html_document
 library(ggplot2)
 notas.and <- read.csv("notas_corte_univ_andaluzas.csv")
 univs.and <- factor(notas.and$Universidad)
+notas.sev <- notas.and[notas.and$Universidad=="SEVILLA",]
+notas.sev <- notas.sev[order(-notas.sev$Nota.general),]
+notas.sev$idu <- c(1:length(notas.sev$Nota.general))
+notas.gr <- notas.and[notas.and$Universidad=="GRANADA",]
+notas.gr <- notas.gr[order(-notas.gr$Nota.general),]
+notas.gr$idu <- c(1:length(notas.gr$Nota.general))
+notas.al <- notas.and[notas.and$Universidad=="ALMERÍA",]
+notas.ma <- notas.and[notas.and$Universidad=="MÁLAGA",]
+notas.ma <- notas.ma[order(-notas.ma$Nota.general),]
+notas.ma$idu <- c(1:length(notas.ma$Nota.general))
+notas.co <- notas.and[notas.and$Universidad=="CÓRDOBA",]
+notas.co <- notas.co[order(-notas.co$Nota.general),]
+notas.co$idu <- c(1:length(notas.co$Nota.general))
+notas.ca <- notas.and[notas.and$Universidad=="CÁDIZ",]
+notas.ca <- notas.ca[order(-notas.ca$Nota.general),]
+notas.ca$idu <- c(1:length(notas.ca$Nota.general))
+notas.ja <- notas.and[notas.and$Universidad=="JAÉN",]
+notas.ja <- notas.ja[order(-notas.ja$Nota.general),]
+notas.ja$idu <- c(1:length(notas.ja$Nota.general))
+notas.hu <- notas.and[notas.and$Universidad=="HUELVA",]
+notas.hu <- notas.hu[order(-notas.hu$Nota.general),]
+notas.hu$idu <- c(1:length(notas.hu$Nota.general))
+notas.upo <- notas.and[notas.and$Universidad=="P. OLAVIDE",]
+notas.upo <- notas.upo[order(-notas.upo$Nota.general),]
+notas.upo$idu <- c(1:length(notas.upo$Nota.general))
 ```
 
 #Inroducción
@@ -20,6 +45,10 @@ Las notas de corte van de 5, indicando generalmente plazas no cubiertas, a 14, q
 ggplot(notas.and,aes(x=reorder(Código,-Nota.general),y=Nota.general,color=Universidad,shape=Rama))+geom_point(stat='Identity')
 ```
 
+Ahora podemos trazar, por separado, cada una de las universidades, lo que nos muestra además el número de titulaciones por universidad, con Sevilla a la cabeza
+```{r univ, echo=FALSE}
+ggplot()  +geom_point(data=notas.sev,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.gr,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ma,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.co,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ca,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.hu,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.ja,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))  +geom_point(data=notas.upo,aes(x=idu,y=Nota.general,color=Universidad,shape=Rama))
+```
 La media de nota de corte por universidad se presenta a continuación, en general revelando la demanda de las titulaciones y relacionada sobre todo con la población de la provincia, con la excepción de Cádiz
 
 ```{r media1, echo=FALSE}

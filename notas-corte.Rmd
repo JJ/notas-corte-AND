@@ -19,3 +19,15 @@ Las notas de corte van de 5, indicando generalmente plazas no cubiertas, a 14, q
 ```{r general, echo=FALSE}
 ggplot(notas.and,aes(x=reorder(Código,-Nota.general),y=Nota.general,color=Universidad,shape=Rama))+geom_point(stat='Identity')
 ```
+
+La media de nota de corte por universidad se presenta a continuación, en general revelando la demanda de las titulaciones y relacionada sobre todo con la población de la provincia, con la excepción de Cádiz
+
+```{r media1, echo=FALSE}
+ggplot(notas.and, aes(x=factor(Universidad), y=Nota.general)) + stat_summary(fun.y="mean", geom="bar")
+```
+
+De la misma forma, la media por rama plasma la popularidad de las mismas, con las carreras saniarias especialmente populares y las de ingeniería y arquitectura en lo más bajo
+```{r media2, echo=FALSE}
+ggplot(notas.and, aes(x=factor(Rama), y=Nota.general)) + stat_summary(fun.y="mean", geom="bar")
+```
+

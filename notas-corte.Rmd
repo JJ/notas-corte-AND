@@ -1,0 +1,21 @@
+---
+title: "Notas de corte de ingeniería en Andalucía"
+author: "J. J. Merelo"
+date: "19/07/2015"
+output: html_document
+---
+
+
+```{r setup, echo=FALSE}
+library(ggplot2)
+notas.and <- read.csv("notas_corte_univ_andaluzas.csv")
+univs.and <- factor(notas.and$Universidad)
+```
+
+#Inroducción
+
+Las notas de corte van de 5, indicando generalmente plazas no cubiertas, a 14, que incluye intensificaciones específicas que dependen de la carrera e universidad. A continuación, por orden, las notas de corte, usando formas para indicar las diferentes ramas y el color para indicar la universidad.
+
+```{r general, echo=FALSE}
+ggplot(notas.and,aes(x=reorder(Código,-Nota.general),y=Nota.general,color=Universidad,shape=Rama))+geom_point(stat='Identity')
+```

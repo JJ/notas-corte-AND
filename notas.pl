@@ -30,16 +30,9 @@ for my $f (@notas ) {
   my $columnas = $f->find('td');
   my @estas_notas =  map $_->all_text(), @$columnas;
   pop @estas_notas; # No nos interesa el último
-  for my $n ( @estas_notas ) {
-    if ( $n =~ /\d/ ) {
-      $n =~ s/,/./;
-    } else {
-      $n =~ s/,/ - /;
-    }
-  }
   
   push @notas_corte, \@estas_notas;
 }
 
-say "Código,Universidad,Rama,Grado en,Centro,Nota general,Titulados,Mayor 25,Mayor 40,Mayor 45"; 
-say join("\n", map( join(",",@$_), @notas_corte ));
+say "Código;Universidad;Rama;Grado en;Centro;Nota general;Titulados;Mayor 25;Mayor 40;Mayor 45"; 
+say join("\n", map( join(";",@$_), @notas_corte ));

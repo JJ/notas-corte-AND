@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Notas de corte de universidades andaluzas (2015)</title>
+    <style media="screen">
+        #chartContainer {
+            max-width: 800px;
+        }
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%; /* aspect ratio */
+            vertical-align: top;
+            overflow: hidden;
+        }
+        .svg-content-responsive {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="chartContainer"/>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script type="text/javascript">
+        // Chart layout properties
+        var chartMargin = {top: 30, right: 30, bottom: 60, left: 60};
+        var chartOuterX = 0;
+        var chartOuterY = 0;
+        var chartOuterWidth = 800;
+        var chartOuterHeight = 600;
+        var chartInnerX = chartOuterX + chartMargin.left;
+        var chartInnerY = chartOuterY + chartMargin.top;
+        var chartInnerWidth = chartOuterWidth - chartMargin.left - chartMargin.right;
+        var chartInnerHeight = chartOuterHeight - chartMargin.top - chartMargin.bottom;
+
+        // Create svg element for the chart, add required attributes for
+        // preserving aspect ratio. Solution taken from this SO thread:
+        // - http://stackoverflow.com/a/25978286
+        d3.select("#chartContainer")
+            .append("div")
+                //container class to make it responsive
+                .classed("svg-container", true)
+            .append("svg")
+                //responsive SVG needs these 2 attributes and no width and height attr
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", chartOuterX + " " + chartOuterY + " " + chartOuterWidth + " " + chartOuterHeight)
+                //class to make it responsive
+                .classed("svg-content-responsive", true);
+        var svg = d3.select("#chartContainer svg")
+
+        // Asynchronously load the data file
+        d3.csv("/notas_corte_univ_andaluzas.csv", function (data) {
+            var myChart = new dimple.chart(svg, data);
+            myChart.setBounds(chartInnerX, chartInnerY, chartInnerWidth, chartInnerHeight);
+
+            // Set x-axis: adding multiple columns is necessary to prevent
+            // dimple.js from aggregating values; sort main x categories
+            // (universities) alphabetically, sort by access score within
+            // universities, set a meaningful title.
+            var x = myChart.addCategoryAxis("x", ["Universidad", "Nota general", "Grado en", "Centro"]);
+            x.addOrderRule("Universidad");
+            x.addGroupOrderRule("Nota general", true);
+            x.title = "Universidad";
+
+            // Set y-axis: set data from access score column, show 3 decimals,
+            // set range min value to 4.
+            var y = myChart.addMeasureAxis("y", "Nota general");
+            y.tickFormat = ",.3f";
+            y.overrideMin = 4.0;
+
+            // Re-inforce visual cues by using colors to differenciate the
+            // "university" main category
+            var series = myChart.addSeries("Universidad", dimple.plot.bubble);
+
+            myChart.draw();
+        });
+
+    </script>
+</body>
+</html>

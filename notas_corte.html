@@ -55,7 +55,7 @@
         var svg = d3.select("#chartContainer svg")
 
         // Asynchronously load the data file
-        d3.csv("/notas_corte_univ_andaluzas.csv", function (data) {
+        d3.csv("notas_corte_univ_andaluzas.csv", function (data) {
             var myChart = new dimple.chart(svg, data);
             myChart.setBounds(chartInnerX, chartInnerY, chartInnerWidth, chartInnerHeight);
 

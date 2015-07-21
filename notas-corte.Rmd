@@ -35,6 +35,8 @@ notas.hu$idu <- c(1:length(notas.hu$Nota.general))
 notas.upo <- notas.and[notas.and$Universidad=="P. OLAVIDE",]
 notas.upo <- notas.upo[order(-notas.upo$Nota.general),]
 notas.upo$idu <- c(1:length(notas.upo$Nota.general))
+#
+univs <- unique(notas.and$Universidad)
 ```
 
 #Inroducción
@@ -77,5 +79,26 @@ notas.sev.gr <- merge(notas.sev,notas.gr,by='Grado.en')
 ggplot(notas.sev.gr,aes(x=Nota.general.x, y=Nota.general.y,shape=Rama.x))+geom_point(stat='Identity')
 ```
 
-
+Finalmente, el porcentaje de carreras que tienen una nota de corte superior al 5 es equivalente a aquellas que han cubierto sus plazas. Su distribución por universidad es como sigue:
+```{r plazas,echo=FALSE}
+univs <- unique(notas.and$Universidad)
+cubiertas <- data.frame(Universidad=character(),Cobertura=double())
+for (u in univs) {
+  this.u <- subset(notas.and,Universidad==u)
+  this.subset <- subset(this.u, Nota.general > 5)
+  this.df <- data.frame(Universidad=u,Cobertura=length(this.subset$Nota.general)/length(this.u$Nota.general))
+  cubiertas <- rbind(cubiertas,this.df)
+}
+ggplot(cubiertas,aes(x=reorder(Universidad,-Cobertura),y=Cobertura,color=Universidad,fill=Universidad))+geom_bar(stat='Identity')
+#Lo mismo, con ramas
+ramas <- unique(notas.and$Rama)
+cubiertas.ramas <- data.frame(Rama=character(),Cobertura=double())
+for (r in ramas) {
+  this.r <- subset(notas.and,Rama==r)
+  this.subset <- subset(this.r, Nota.general > 5)
+  this.df <- data.frame(Rama=r,Cobertura=length(this.subset$Nota.general)/length(this.r$Nota.general))
+  cubiertas.ramas <- rbind(cubiertas.ramas,this.df)
+}
+ggplot(cubiertas.ramas,aes(x=reorder(Rama,-Cobertura),y=Cobertura,color=Rama,fill=Rama))+geom_bar(stat='Identity')
+```
 

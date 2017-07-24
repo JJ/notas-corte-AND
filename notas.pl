@@ -26,7 +26,8 @@ my @notas = @$filas;
 
 my @notas_corte;
 for my $f (@notas ) {
-  next if ( $f->all_text() !~ /^(\d+)/); 
+#  say $f->all_text();
+  next if ( $f->all_text() !~ /^\s+201\d/); 
   my $columnas = $f->find('td');
   my @estas_notas =  map $_->all_text(), @$columnas;
   pop @estas_notas; # No nos interesa el último

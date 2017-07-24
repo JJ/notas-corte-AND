@@ -35,5 +35,5 @@ for my $f (@notas ) {
   push @notas_corte, \@estas_notas;
 }
 
-say "Código;Universidad;Rama;Grado en;Centro;Nota general;Titulados;Mayor 25;Mayor 40;Mayor 45"; 
+say "Año;Código;Universidad;Rama;Grado en;Centro;Nota general;Titulados;Mayor 25;Mayor 40;Mayor 45"; 
 say join("\n", map( join(";",@$_), @notas_corte ));

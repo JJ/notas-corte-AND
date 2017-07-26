@@ -10,5 +10,5 @@ ggplot(notas)+geom_line(aes(x=Año,y=Nota.general,group=interaction(Grado.en,Cen
 notas.granada <- notas[notas$Universidad=="GRANADA",]
 ggplot(notas.granada)+geom_line(aes(x=Año,y=Nota.general,group=interaction(Grado.en,Centro),color=Centro))+geom_point(aes(x=Año,y=Nota.general,color=Centro,shape=Rama))
 notas.granada$Titulación = paste(notas.granada$Grado.en,notas.granada$Centro)
-notas.granada <- notas[notas$Nota.general>=5,]
-ggplot(notas.granada)+geom_line(aes(x=Año,y=Nota.general,color=Centro))+geom_point(aes(x=Año,y=Nota.general,color=Centro,shape=Rama))+facet_grid(. ~ Titulación)
+notas.granada <- notas[notas$Nota.general>5,]
+ggplot(notas.granada)+geom_line(aes(x=Año,y=Nota.general))+geom_point(aes(x=Año,y=Nota.general,color=Centro,shape=Rama))+facet_grid(. ~ Titulación)
